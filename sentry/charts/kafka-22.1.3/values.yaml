@@ -1663,8 +1663,12 @@ provisioning:
   ## @param provisioning.resources.requests The requested resources for the Kafka provisioning container
   ##
   resources:
-    limits: {}
-    requests: {}
+    limits:
+      cpu: 300m
+      memory: 700Mi
+    requests:
+      cpu: 200m
+      memory: 400Mi
   ## Kafka provisioning pods' Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param provisioning.podSecurityContext.enabled Enable security context for the pods
@@ -1689,6 +1693,12 @@ provisioning:
     enabled: true
     runAsUser: 1001
     runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
   ## @param provisioning.schedulerName Name of the k8s scheduler (other than default) for kafka provisioning
   ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
   ##

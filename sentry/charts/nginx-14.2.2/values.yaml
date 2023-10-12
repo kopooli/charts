@@ -218,9 +218,15 @@ podSecurityContext:
 ## @param containerSecurityContext.runAsNonRoot Set NGINX container's Security Context runAsNonRoot
 ##
 containerSecurityContext:
-  enabled: false
+  enabled: true
   runAsUser: 1001
   runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
 ## Configures the ports NGINX listens on
 ## @param containerPorts.http Sets http port inside NGINX container
 ## @param containerPorts.https Sets https port inside NGINX container
@@ -245,16 +251,12 @@ extraContainerPorts: []
 ## @param resources.requests The requested resources for the NGINX container
 ##
 resources:
-  ## Example:
-  ## limits:
-  ##    cpu: 100m
-  ##    memory: 128Mi
-  limits: {}
-  ## Examples:
-  ## requests:
-  ##    cpu: 100m
-  ##    memory: 128Mi
-  requests: {}
+  limits:
+    cpu: 300m
+    memory: 700Mi
+  requests:
+    cpu: 200m
+    memory: 400Mi
 ## NGINX containers' lifecycleHooks
 ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/

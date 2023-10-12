@@ -262,8 +262,12 @@ master:
   ## @param master.resources.requests The requested resources for the Redis&reg; master containers
   ##
   resources:
-    limits: {}
-    requests: {}
+    limits:
+      cpu: 300m
+      memory: 1500Mi
+    requests:
+      cpu: 200m
+      memory: 450Mi
   ## Configure Pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param master.podSecurityContext.enabled Enabled Redis&reg; master pods' Security Context
@@ -280,6 +284,13 @@ master:
   containerSecurityContext:
     enabled: true
     runAsUser: 1001
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
   ## @param master.kind Use either Deployment or StatefulSet (default)
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
   ##
@@ -675,12 +686,12 @@ replica:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits: {}
-    #   cpu: 250m
-    #   memory: 256Mi
-    requests: {}
-    #   cpu: 250m
-    #   memory: 256Mi
+    limits:
+      cpu: 300m
+      memory: 700Mi
+    requests:
+      cpu: 200m
+      memory: 450Mi
   ## Configure Pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param replica.podSecurityContext.enabled Enabled Redis&reg; replicas pods' Security Context
@@ -697,6 +708,13 @@ replica:
   containerSecurityContext:
     enabled: true
     runAsUser: 1001
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
   ## @param replica.schedulerName Alternate scheduler for Redis&reg; replicas pods
   ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
   ##

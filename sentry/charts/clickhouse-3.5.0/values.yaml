@@ -145,8 +145,22 @@ clickhouse:
     successThreshold: "1"
     timeoutSeconds: "5"
   replicas: "3"
-  resources: {}
-  securityContext: {}
+  resources:
+    limits:
+      cpu: 300m
+      memory: 700Mi
+    requests:
+      cpu: 200m
+      memory: 450Mi
+  securityContext:
+    runAsUser: 1002
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
   tcp_port: "9000"
   updateStrategy: RollingUpdate
 clusterDomain: cluster.local
